@@ -1,0 +1,37 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege: read-only token for every job.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # Tip: pin third-party actions to full commit SHAs before the first public release.
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install (lockfile only, no install scripts)
+        run: npm ci --ignore-scripts
+      - name: Scan for committed secrets
+        run: npm run secrets:check
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+      - name: Typecheck, lint, test
+        run: npm run check
+      - name: Build
+        run: npm run build

@@ -1,0 +1,59 @@
+# ---------------------------------------------------------------------------
+# Packet Flip .gitignore
+# The pre-commit hook (scripts/check-secrets.mjs) is a second line of defense:
+# it also blocks the sensitive paths below if someone force-adds them.
+# ---------------------------------------------------------------------------
+
+# Dependencies and build output
+node_modules/
+dist/
+coverage/
+.vite/
+*.tsbuildinfo
+.eslintcache
+.cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor and OS files (personal settings stay local)
+.vscode/
+.idea/
+*.code-workspace
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment files and local overrides
+.env
+.env.*
+!.env.example
+*.local
+.npmrc.local
+
+# Secrets, keys and credentials: never commit
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+id_ecdsa*
+credentials.json
+service-account*.json
+.netrc
+.git-credentials
+secrets/
+.secrets/
+
+# Deployment tool state (can contain project tokens)
+.vercel/
+.netlify/
+.wrangler/
+.firebase/
